@@ -1,4 +1,4 @@
-from langchain.prompts import PromptTemplate
+from langchain_core.prompts import PromptTemplate
 
 QA_PROMPT = PromptTemplate(
     input_variables=["context", "question"],

@@ -4,6 +4,7 @@ from fastapi import APIRouter, File, UploadFile
 
 from rag.ingest.chunker import chunk_docs
 from rag.ingest.loader import load_docs as load_pdf
+from rag.retrieval.retriever import build_index
 
 router = APIRouter()
 
@@ -18,7 +19,9 @@ async def upload_pdf(file: UploadFile = File(...)):
     with open(path, "wb") as f:
         f.write(await file.read())
 
-    docs = load_pdf(path)
-    chunks = chunk_docs(docs)
+    text = load_pdf(path)
+    chunks = chunk_docs(text)
 
-    return {"filename": file.filename, "total_chunks": len(chunks), "preview": chunks[:3]}
+    build_index(chunks)
+
+    return {"filename": file.filename, "chunks_indexed": len(chunks)}
