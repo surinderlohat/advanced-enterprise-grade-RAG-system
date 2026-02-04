@@ -1,21 +1,26 @@
-from rag.retrieval.embeddings import embed_query, embed_texts
-from rag.retrieval.vector_store import VectorStore
+from retrieval.embeddings import embed_query, embed_texts
+from retrieval.sparse_index import SparseIndex
+from retrieval.vector_store import VectorStore
 
 vector_store = None
-
+sparse_index = None
 
 def build_index(chunks):
-    global vector_store
-    # Extract text content from Document objects if needed
-    texts = [c.page_content if hasattr(c, "page_content") else str(c) for c in chunks]
-    embeddings = embed_texts(texts)
+    global vector_store, sparse_index
+
+    embeddings = embed_texts(chunks)
     dim = len(embeddings[0])
+
     vector_store = VectorStore(dim)
     vector_store.add(embeddings, chunks)
 
+    sparse_index = SparseIndex()
+    sparse_index.add(chunks)
 
-def search(query: str):
-    if vector_store is None:
-        return []
-    q_emb = embed_query(query)
-    return vector_store.search(q_emb)
+def hybrid_search(query: str, k=5):
+    dense_results = vector_store.search(embed_query(query), k)
+    sparse_results = sparse_index.search(query, k)
+
+    # merge + deduplicate
+    combined = list(dict.fromkeys(dense_results + sparse_results))
+    return combined[:k]

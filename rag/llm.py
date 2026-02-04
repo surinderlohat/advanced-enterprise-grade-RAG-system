@@ -2,23 +2,23 @@ import os
 
 from openai import OpenAI
 
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY", "sk-your_token_here"))
 
 
 def generate_answer(context: str, question: str) -> str:
     prompt = f"""
-You are a helpful assistant.
-Use ONLY the context below to answer.
-If answer is not in context, say "I don't know".
+    You are an enterprise assistant.
+    Answer ONLY using the sources below.
+    Cite sources like [Source 1], [Source 2].
 
-Context:
-{context}
+    Sources:
+    {context}
 
-Question:
-{question}
+    Question:
+    {question}
 
-Answer:
-"""
+    Answer:
+    """
     response = client.chat.completions.create(
         model="gpt-4.1-mini", messages=[{"role": "user", "content": prompt}], temperature=0
     )
