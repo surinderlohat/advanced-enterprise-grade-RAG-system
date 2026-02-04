@@ -1,8 +1,8 @@
 from langchain_openai import ChatOpenAI
 
-from prompts.qa_prompt import QA_PROMPT
-from retrieval.reranker import rerank
-from retrieval.retriever_vector import retrieve
+from rag.prompts.qa_prompt import QA_PROMPT
+from rag.retrieval.reranker import rerank
+from rag.retrieval.retriever_vector import retrieve
 
 llm = ChatOpenAI(temperature=0)
 

@@ -1,9 +1,9 @@
 import os
 
-from chains.rag_chain import run_rag
-from ingest.chunker import chunk_docs
-from ingest.loader import load_docs
-from ingest.vector_store import create_vector_store
+from rag.chains.rag_chain import run_rag
+from rag.ingest.chunker import chunk_docs
+from rag.ingest.loader import load_docs
+from rag.ingest.vector_store import create_vector_store
 
 if not os.path.exists("vector_store"):
     docs = load_docs("data/sample.pdf")
