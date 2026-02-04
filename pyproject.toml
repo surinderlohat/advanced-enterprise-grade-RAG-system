@@ -1,3 +1,22 @@
+[project]
+name = "rag-workflow"
+version = "0.1.0"
+description = "RAG Workflow Project"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "faiss-cpu>=1.13.2",
+    "fastapi>=0.128.0",
+    "langchain>=1.2.8",
+    "langchain-community>=0.4.1",
+    "langchain-openai>=1.1.7",
+    "openai>=2.16.0",
+    "pypdf>=6.6.2",
+    "sentence-transformers>=5.2.2",
+    "tiktoken>=0.12.0",
+    "uvicorn>=0.40.0",
+]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 python_files = ["test_*.py"]
@@ -5,5 +24,22 @@ python_classes = ["Test*"]
 python_functions = ["test_*"]
 addopts = "-v"
 
-[tool.black]
+[tool.ruff]
 line-length = 120
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B"]
+ignore = []
+fixable = ["ALL"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+
+[dependency-groups]
+dev = [
+    "ruff>=0.15.0",
+]
