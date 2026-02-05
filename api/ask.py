@@ -1,4 +1,5 @@
 from fastapi import APIRouter
+
 from rag.orchestrator import run_rag
 
 router = APIRouter()
